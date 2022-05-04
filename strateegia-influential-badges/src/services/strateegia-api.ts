@@ -1,7 +1,7 @@
 const API_URL_PROJECTS = 'https://api.strateegia.digital/projects/v1/';
 const API_URL_USERS = 'https://api.strateegia.digital/users/v1/';
 
-export async function auth(username, password) {
+export async function auth(username: string, password: string) {
     const base64Login = btoa(`${username}:${password}`);
 
     const response = await fetch(`${API_URL_USERS}auth/signin`, {
@@ -17,7 +17,7 @@ export async function auth(username, password) {
     return data.access_token;
 }
 
-export async function getAllProjects(token) {
+export async function getAllProjects(token: string) {
 
     const response = await fetch(`${API_URL_PROJECTS}project?size=5000`, {
         method: 'get',
@@ -32,7 +32,7 @@ export async function getAllProjects(token) {
     return data;
 }
 
-export async function getProjectById(token, project_id) {
+export async function getProjectById(token: string, project_id: string) {
 
     const response = await fetch(`${API_URL_PROJECTS}project/${project_id}`, {
         method: 'get',
@@ -47,7 +47,7 @@ export async function getProjectById(token, project_id) {
     return data;
 }
 
-export async function getAllDivergencePointsByMapId(token, map_id) {
+export async function getAllDivergencePointsByMapId(token: String, map_id: string) {
 
     const response = await fetch(`${API_URL_PROJECTS}map/${map_id}/divergence-point?size=5000`, {
         method: 'get',
@@ -62,7 +62,7 @@ export async function getAllDivergencePointsByMapId(token, map_id) {
     return data;
 }
 
-export async function getMapById(token, map_id) {
+export async function getMapById(token: String, map_id: string) {
 
     const response = await fetch(`${API_URL_PROJECTS}map/${map_id}`, {
         method: 'get',
@@ -77,7 +77,7 @@ export async function getMapById(token, map_id) {
     return data;
 }
 
-export async function getDivergencePointById(token, content_id) {
+export async function getDivergencePointById(token: String, content_id: string) {
 
     const response = await fetch(`${API_URL_PROJECTS}divergence-point/${content_id}?size=5000`, {
         method: 'get',
@@ -92,7 +92,7 @@ export async function getDivergencePointById(token, content_id) {
     return data;
 }
 
-export async function getParentComments(token, content_id, question_id) {
+export async function getParentComments(token: String, content_id: string, question_id: string) {
 
     const response = await fetch(`${API_URL_PROJECTS}divergence-point/${content_id}/question/${question_id}/comment?size=5000`, {
         method: 'get',
@@ -107,7 +107,7 @@ export async function getParentComments(token, content_id, question_id) {
     return data;
 }
 
-export async function getCommentsGroupedByQuestionReport(token, content_id) {
+export async function getCommentsGroupedByQuestionReport(token: String, content_id: string) {
 
     const response = await fetch(`${API_URL_PROJECTS}divergence-point/${content_id}/comment/report?size=5000`, {
         method: 'get',
@@ -122,7 +122,7 @@ export async function getCommentsGroupedByQuestionReport(token, content_id) {
     return data;
 }
 
-export async function getCommentEngagementByContent(token, projectId) {
+export async function getCommentEngagementByContent(token: String, projectId: String) {
 
     const response = await fetch(`${API_URL_PROJECTS}project/${projectId}/divergence-point-engagement`, {
         method: 'get',
@@ -137,7 +137,7 @@ export async function getCommentEngagementByContent(token, projectId) {
     return data;
 }
 
-export async function getUser(token) {
+export async function getUser(token: string) {
 
     const response = await fetch(`${API_URL_USERS}user/me`, {
         method: 'get',
