@@ -17,6 +17,17 @@ export async function auth(username: string, password: string) {
     return data.access_token;
 }
 
+// export const getAllProjects = (token: string) => {
+//     const { data }: any = await fetch(`${API_URL_PROJECTS}project?size=5000`, {
+//         method: 'get',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': `Bearer ${token}`
+//         }
+//     })
+//     return data;
+// }
+
 export async function getAllProjects(token: string) {
 
     const response = await fetch(`${API_URL_PROJECTS}project?size=5000`, {
