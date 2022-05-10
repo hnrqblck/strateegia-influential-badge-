@@ -5,9 +5,11 @@ import { DropDownIcon } from '../components/CreateIcon';
 interface IProps {
   text: string;
   children: JSX.Element;
+  onClick?: any;
+  refe?: any;
 }
 
-const SelectOpt: React.FC<IProps> = ({text, children}:IProps) => {
+const SelectOpt: React.FC<IProps> = ({text, children, onClick, refe}:IProps) => {
   return (
     <Flex mb='24px'>
       <FormLabel
@@ -17,8 +19,9 @@ const SelectOpt: React.FC<IProps> = ({text, children}:IProps) => {
         borderRadius='12px' 
         w='290px' h='40px' 
         textAlign='center'
-        fontSize='lg'
+        fontSize='20px'
         mr='20px'
+      
       >
         {text}
       </FormLabel>
@@ -28,7 +31,8 @@ const SelectOpt: React.FC<IProps> = ({text, children}:IProps) => {
         borderRadius='12px'
         maxH='48px'
         w='430px'
-
+        onChange={onClick}
+        ref={refe}
         fontSize='lg'
         fontFamily='Poppins, sans-serif'
       >

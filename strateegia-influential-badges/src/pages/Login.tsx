@@ -26,6 +26,7 @@ const Login = () => {
     const [loginErrors, setLoginErrors] = React.useState("");
     const navigate  = useNavigate();
     const handleClick = () => setShow(!show);
+    document.body.style.overflow='hidden'
 
     type FormValues = {
         email: string;
