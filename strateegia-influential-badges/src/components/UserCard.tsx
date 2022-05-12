@@ -11,16 +11,31 @@ const UserCard = ({name, score, position}: IProps) => {
   return (
     <Box
         bg='mediumBlue'
-        w='310px'
+        w='260px'
         h='248px'
         borderRadius='24px'
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        textAlign='center'
+        mb='24px'
     >
         <div>
-            <Text>{position}</Text>
-            <Heading>{name}</Heading>
-            <Text>Score</Text>
-            <Box>
-                <Text>{score}%</Text>
+            <Heading fontSize='lg' mb='8px'>{name}</Heading>
+            <Text fontSize='lg' mb='8px'>Score</Text>
+            <Box display='flex' justifyContent='center' fontSize='lg' alignItems='center' >
+                <Text
+                    w='24px' h='24px'
+                    borderRadius='25px'
+                    fontWeight='bold'
+                    fontSize='md' 
+                    bg='white' 
+                    color='mediumBlue'
+                    mr='6px'
+                >
+                    {position}
+                </Text>
+                <Text color='pink'>{score}%</Text>
             </Box>
         </div>
     </Box>

@@ -56,7 +56,6 @@ async function gatherData(projectId, userId, divergencePointId) {
   params.bigger_amount_inner_replies = "COMPLETAR";
   params.average_inner_replies_per_comment = "COMPLETAR";
 
-
 }
 
 async function getDivPointReport(divergencePointId) {
