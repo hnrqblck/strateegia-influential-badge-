@@ -4,7 +4,8 @@ import {
 } from '@chakra-ui/react';
 import SelectOpt from './SelectOpt';
 import { getAllProjects, getProjectById, getAllDivergencePointsByMapId } from '../services/strateegia-api';
-import { users, executeCalculations } from './metrics';
+import {executeCalculations } from './metrics';
+import { DivPointId } from '../contexts/DivPointId';
 
 interface userProps {
     id: string;
@@ -13,13 +14,13 @@ interface userProps {
 
 const JourneyForm = () => {
     const accessToken = localStorage.getItem("strateegiaAccessToken");
-    
+    let usersScore;
     const [labs, setLabs] = React.useState<any[]>([]);
     const [maps, setMaps] = React.useState<any[]>([]);
     const [points, setPoints] = React.useState<any[]>([]);
-
-    const [journeyId, setJourneyId] = React.useState<string>('');
-    const [mapId, setMapId] = React.useState<string>('');
+    const appContext = React.useContext(DivPointId);
+    // const [journeyId, setJourneyId] = React.useState<string>('');
+    // const [mapId, setMapId] = React.useState<string>('');
     const [pointId, setPointId] = React.useState<string>('');
 
     const [usersCalc, setUsersCalc] = React.useState<any[]>([])
@@ -29,9 +30,9 @@ const JourneyForm = () => {
         .then(data => {
             const journeys = data.map((lab: { projects: Object; }) => lab.projects);
             setLabs([...journeys.flat()]);
-            setJourneyId(journeys[0][0].id)
             fetchProjectById(accessToken, journeys[0][0].id);
         });
+        
     }, []);
     
 
@@ -40,42 +41,53 @@ const JourneyForm = () => {
         .then(data => {
             const users: any = [];
             const maps = data.maps.map((lab: Object) => lab);
+
+            fetchDivId(accessToken,  data.maps[0].id);
             setMaps([...maps.flat()]);
-            setMapId(maps[0].id)
             data.users.forEach(({id, name}: userProps) => {
                 users.push({ id: id, name: name });
             });
-            fetchDivId(accessToken, maps[0].id)
-            console.log('us', users);
             localStorage.setItem("users", JSON.stringify(users));
         })
     }
 
     const fetchDivId = (accessToken: string | null, mapId: string) => {
+        console.log('entrei')
         getAllDivergencePointsByMapId(accessToken, mapId)
         .then(data => {
             const points = data.content.map((point: []) => point);
+            localStorage.setItem('pointId', points[0].id);
+            executeCalculations(points[0].id).then(data => localStorage.setItem("usersScore", JSON.stringify(data)));
             setPoints([...points.flat()]);
-            setPointId(points[0].id);
-            console.log('pt', points);
-            
+            // setPointId(points[0].id);
         })
     }
 
-    const selectAnJourneyOption = (e: BaseSyntheticEvent, setter: any) => {
-        setter(e.target.value);
+    const selectAnJourneyOption = (e: BaseSyntheticEvent) => {
+        localStorage.setItem('journeyId', e.target.value);
         fetchProjectById(accessToken, e.target.value);
+        setTimeout(() => {
+            appContext.setId(localStorage.getItem('pointId'));
+        }, 1000);
     };
 
-    const selectAnMapOption = (e: BaseSyntheticEvent, setter: any) => {
-        setter(e.target.value);
+    const selectAnMapOption = (e: BaseSyntheticEvent) => {
+        localStorage.setItem('mapId', e.target.value);
         fetchDivId(accessToken, e.target.value)
+        setTimeout(() => {
+            appContext.setId(localStorage.getItem('pointId'));
+        }, 1000);
     };
 
-    const selectAnPointOption = (e: BaseSyntheticEvent, setter: any) => {
-        setter(e.target.value);
+    const selectAnPointOption = (e: BaseSyntheticEvent) => {
+        localStorage.setItem('pointId', e.target.value);
         executeCalculations(e.target.value).then(data => localStorage.setItem("usersScore", JSON.stringify(data)));
+        appContext.setId(e.target.value);
     };
+
+    React.useEffect(() => {
+        usersScore = localStorage.getItem("usersScore");
+    }, [pointId]);
 
     return (
         <Box 
@@ -94,7 +106,7 @@ const JourneyForm = () => {
         >
             <SelectOpt 
                 text='Jornadas'
-                onClick={(e: BaseSyntheticEvent) => selectAnJourneyOption(e, setJourneyId)} 
+                onClick={(e: BaseSyntheticEvent) => selectAnJourneyOption(e)} 
                 children={<>{
                     labs.map(journey => ( 
                         <option key={journey.id} value={journey.id}>{journey.title}</option>
@@ -102,7 +114,7 @@ const JourneyForm = () => {
                 }</>}
             />
             <SelectOpt 
-                onClick={(e: BaseSyntheticEvent) => selectAnMapOption(e, setMapId)}
+                onClick={(e: BaseSyntheticEvent) => selectAnMapOption(e)}
                 text='Mapas' 
                 children={<>{
                     maps.map(journeyMap => ( 
@@ -111,11 +123,11 @@ const JourneyForm = () => {
                 }</>}
             />
             <SelectOpt
-                onClick={(e: BaseSyntheticEvent) => selectAnPointOption(e, setPointId)}
+                onClick={(e: BaseSyntheticEvent) => selectAnPointOption(e)}
                 text='Pontos de Divergência'
                 children={<>{
                     points.map(point => ( 
-                        <option key={point.tool.id} value={point.tool.id}>{point.tool.title}</option>
+                        <option key={point.id} value={point.id}>{point.tool.title}</option>
                     ))
                 }</>}/>
         </Box>

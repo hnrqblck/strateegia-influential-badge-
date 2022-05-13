@@ -110,7 +110,7 @@ export async function getParentComments(token: string | null, content_id: string
 
 export async function getCommentsGroupedByQuestionReport(token: string | null, content_id: string | null) {
 
-    const response = await fetch(`${API_URL_PROJECTS}divergence-point/${content_id}/comment/report?size=5000`, {
+    const response = await fetch(`${API_URL_PROJECTS}divergence-point/${content_id}/comment/report`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',

@@ -58,11 +58,12 @@ export async function gatherData(projectId, userId, divergencePointId) {
     params.total_replies = statisticsForDivergentPoint.reply_comments_count;
     params.bigger_amount_inner_replies = "COMPLETAR";
     params.average_inner_replies_per_comment = "COMPLETAR";
-  
+    
   }
   
   async function getDivPointReport(divergencePointId) {
     const divPointReport = await getCommentsGroupedByQuestionReport(accessToken, divergencePointId);
+    console.log('divPointReport', divPointReport)
     return divPointReport;
   }
   
@@ -125,6 +126,7 @@ export async function gatherData(projectId, userId, divergencePointId) {
       total_inner_replies_per_user += author.total_inner_replies;
     });
     kitData.average_inner_replies_per_user = total_inner_replies_per_user / kitData.total_users;
+    console.log('kitdata', kitData)
     return kitData;
   }
   
@@ -298,12 +300,9 @@ export async function gatherData(projectId, userId, divergencePointId) {
   }
   
   
-  export async function executeCalculations(divergencePointId) {
-    // Execute functions
-    // testJsonPathWithStrateegiaAPI();
-    // gatherData(projectId, userId, divergencePointId);
+   async function executeCalculations(divergencePointId) {
+
     const divPointReport = await getDivPointReport(divergencePointId);
-    console.log(divPointReport)
     const authorsData = await getAuthorsData(divPointReport);
     const kitData = await getKitData(divPointReport, authorsData);
     
@@ -312,9 +311,10 @@ export async function gatherData(projectId, userId, divergencePointId) {
       authorsScores.push(calculateAuthorScore(author, kitData));
     });
     const authorsScoresSorted = authorsScores.sort((a, b) => b.score - a.score);
+    console.log('params', params)
     return authorsScoresSorted;
   }
   
 
 
-export {users}
+export {executeCalculations}

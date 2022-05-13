@@ -14,9 +14,21 @@ import { SearchIcon } from '@chakra-ui/icons'
 import NavBar from '../components/NavBar';
 import JourneyForm from '../components/JourneyForm';
 import UserCard from '../components/UserCard';
-import { users, executeCalculations } from '../components/metrics';
+import { executeCalculations } from '../components/metrics';
 import '../styles/home.scss';
 import { LightningIcon } from '../components/CreateIcon';
+
+import {
+  Pagination,
+  PaginationContainer,
+  PaginationSeparator,
+  usePagination,
+  PaginationPage,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationPageGroup,
+} from "@ajna/pagination";
+import UsersCardsPages from '../components/UsersCardsPages';
 
 interface UserType {
   name: string;
@@ -26,11 +38,18 @@ interface UserType {
 
 const Home = () => {
   const [query, setQuery] = React.useState<string>('')
-  const usersScore = JSON.parse(localStorage.getItem("usersScore") || '');
-  console.log(usersScore)
+  
   type FormValues = {
     searchContent: string;
   };
+
+
+  // React.useEffect(() => {
+  //   executeCalculations(divPoint)
+  //     .then(data => setUsersScore(data))
+
+  // }, [id])
+
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
 
@@ -92,7 +111,7 @@ const Home = () => {
               >
                 <Box display='flex' alignItems='center'>
                   <Heading fontSize='lg' mr='8px'>Conheça os influencers</Heading>
-                  <Text>({users.length} resultados)</Text>
+                  {/* <Text>({usersScore.length} resultados)</Text> */}
                 </Box>
                 
                 <form onSubmit={handleSubmit(pressEnter)}>
@@ -118,15 +137,7 @@ const Home = () => {
                     tabela
                   </Button>
                 </Box>
-              <Box 
-                display='flex'
-                flexWrap='wrap'
-                justifyContent='space-between'
-              >
-                {usersScore.map((user: UserType, index: number) => (
-                  <UserCard key={user.id} name={user.name} score={user.score} position={index + 1}/>
-                ))}
-              </Box>
+              <UsersCardsPages />
             </Box>
         </Flex>
     </>
