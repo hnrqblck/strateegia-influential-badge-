@@ -21,7 +21,7 @@ const UserCard = ({name, score, position}: IProps) => {
         mb='24px'
     >
         <div>
-            <Heading fontSize='lg' mb='8px'>{name}</Heading>
+            <Heading p='0 10px' fontSize='lg' mb='8px'>{name}</Heading>
             <Text fontSize='lg' mb='8px'>Score</Text>
             <Box display='flex' justifyContent='center' fontSize='lg' alignItems='center' >
                 <Text

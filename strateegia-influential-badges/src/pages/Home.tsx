@@ -18,16 +18,6 @@ import { executeCalculations } from '../components/metrics';
 import '../styles/home.scss';
 import { LightningIcon } from '../components/CreateIcon';
 
-import {
-  Pagination,
-  PaginationContainer,
-  PaginationSeparator,
-  usePagination,
-  PaginationPage,
-  PaginationNext,
-  PaginationPrevious,
-  PaginationPageGroup,
-} from "@ajna/pagination";
 import UsersCardsPages from '../components/UsersCardsPages';
 
 interface UserType {
