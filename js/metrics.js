@@ -29,11 +29,11 @@ let params = {
 async function testJsonPathWithStrateegiaAPI() {
 
   const project = await getAllProjects(localStorage.getItem("strateegiaAccessToken"));
-  console.log("getAllProjects()");
-  console.log(project);
+  // console.log("getAllProjects()");
+  // console.log(project);
 
   const result = JSONPath.JSONPath({ path: `$..comments[?(@.author.id == '${userId}')]`, json: project });
-  console.log(result);
+  // console.log(result);
 
 }
 
@@ -306,6 +306,6 @@ export async function executeCalculations(divergencePointId) {
     authorsScores.push(calculateAuthorScore(author, kitData));
   });
   const authorsScoresSorted = authorsScores.sort((a, b) => b.score - a.score);
-  console.log(authorsData);
+  // console.log(authorsData);
   return authorsScoresSorted;
 }

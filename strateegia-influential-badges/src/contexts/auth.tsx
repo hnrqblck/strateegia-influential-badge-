@@ -74,7 +74,6 @@ export const AuthProvider = ({children}: IProps ) => {
     const data = await response.json();
     setApiToken(data.access_token);
     localStorage.setItem('strateegiaAccessToken', data.access_token);
-    return data.access_token;
   }
 
   return (

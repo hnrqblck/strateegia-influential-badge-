@@ -14,16 +14,13 @@ interface userProps {
 
 const JourneyForm = () => {
     const accessToken = localStorage.getItem("strateegiaAccessToken");
-    let usersScore;
+    const [usersScore, setUsersScore] = React.useState<string | null>(null);
     const [labs, setLabs] = React.useState<any[]>([]);
     const [maps, setMaps] = React.useState<any[]>([]);
     const [points, setPoints] = React.useState<any[]>([]);
     const appContext = React.useContext(DivPointId);
-    // const [journeyId, setJourneyId] = React.useState<string>('');
-    // const [mapId, setMapId] = React.useState<string>('');
     const [pointId, setPointId] = React.useState<string>('');
 
-    const [usersCalc, setUsersCalc] = React.useState<any[]>([])
 
     React.useEffect(() => {
         getAllProjects(accessToken)
@@ -31,6 +28,7 @@ const JourneyForm = () => {
             const journeys = data.map((lab: { projects: Object; }) => lab.projects);
             setLabs([...journeys.flat()]);
             fetchProjectById(accessToken, journeys[0][0].id);
+            // fetchDivId(accessToken,  maps[0].id)
         });
         
     }, []);
@@ -52,7 +50,7 @@ const JourneyForm = () => {
     }
 
     const fetchDivId = (accessToken: string | null, mapId: string) => {
-        console.log('entrei')
+        // console.log('entrei')
         getAllDivergencePointsByMapId(accessToken, mapId)
         .then(data => {
             const points = data.content.map((point: []) => point);
@@ -81,12 +79,16 @@ const JourneyForm = () => {
 
     const selectAnPointOption = (e: BaseSyntheticEvent) => {
         localStorage.setItem('pointId', e.target.value);
-        executeCalculations(e.target.value).then(data => localStorage.setItem("usersScore", JSON.stringify(data)));
+        executeCalculations(e.target.value).then(data => {
+            localStorage.setItem("usersScore", JSON.stringify(data));
+            setUsersScore(JSON.stringify(data));
+        });
+
         appContext.setId(e.target.value);
     };
 
     React.useEffect(() => {
-        usersScore = localStorage.getItem("usersScore");
+        setUsersScore(localStorage.getItem("usersScore"));
     }, [pointId]);
 
     return (
