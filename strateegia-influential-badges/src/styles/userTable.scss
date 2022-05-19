@@ -1,0 +1,46 @@
+table.css-9uobgx {
+    background: #09094EF2;
+
+    .strip {
+        background: #0B0B40;
+    }
+
+    th {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .biggerTh {
+        width: 300px;
+    }
+
+    th, td {
+        text-align: center;
+        width: 160px;
+        height: 80px;
+    }
+
+    td {
+        font-size: 14px;
+    }
+
+    td.user_name {
+        text-align: left;
+        width: 200px;
+        padding-left: 30px;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        // justify-content: center;
+    }
+
+    .level {
+        display: flex;
+        align-items: center;
+    }
+
+    
+
+
+}

@@ -21,11 +21,7 @@ interface UserType {
     id: string;
     score: number;
 }
-interface IProps {
-    curPage: number;
-    usersLimit: number;
-    searchQuery: string;
-}
+
 
 const UsersCardsPages = ({searchQuery}: any) => {
     const [usersScore, setUsersScore] = React.useState(JSON.parse(localStorage.getItem("usersScore") || ''));

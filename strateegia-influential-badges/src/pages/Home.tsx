@@ -16,15 +16,17 @@ import JourneyForm from '../components/JourneyForm';
 import '../styles/home.scss';
 import { LightningIcon } from '../components/CreateIcon';
 import UsersCardsPages from '../components/UsersCardsPages';
+import UserTablePage from '../components/UserTablePage';
 import { DivPointId } from '../contexts/DivPointId';
 import noData from '../assets/images/noData.png'
 
 const Home: React.FC = () => {
   const [query, setQuery] = React.useState<string>('');
   const [usersScore, setUsersScore] = React.useState<any>([]);
+  const [userLevel, setUserLevel] = React.useState<any>({});
+  const [activeTable, setActiveTable] = React.useState<boolean>(false);
   const journeyId = localStorage.getItem("journeyId");
   const mapId = localStorage.getItem("mapId");
-  const [userLevel, setUserLevel] = React.useState<any>({});
   const { id } = React.useContext(DivPointId);
   document.body.style.overflow='visible'
 
@@ -57,8 +59,6 @@ const Home: React.FC = () => {
     } else {
       setUserLevel({...userLevel});
     }
-
-    console.log(usersScore.length);
   }, [usersScore]);
 
 
@@ -137,17 +137,23 @@ const Home: React.FC = () => {
               </form>
             </Box>
             <Box display='flex' mb='60px' fontSize='sm'>
-                <Button bg='lilac' borderRadius='40px' mr='16px'>
+                <Button onClick={() => setActiveTable(false)} bg={activeTable ? '#1D1E39' : 'lilac'} color={activeTable ? 'grey' : ''} borderRadius='40px' mr='16px'>
                   score
                 </Button>
-                <Button bg='rgba(232, 232, 232, 0.12)' borderRadius='40px' color='gray' >
+                <Button onClick={() => setActiveTable(true)} bg={activeTable ? 'lilac' : '#1D1E39'} color={activeTable ? '' : 'grey'} borderRadius='40px'  >
                   tabela
                 </Button>
               </Box>
               
-              {usersScore.length > 0 ? (
-                <UsersCardsPages searchQuery={query}/>
-              ) : (
+              {usersScore.length > 0 ? 
+                activeTable ? (
+                  <Box paddingBottom='50px'>
+                    <UserTablePage />
+                  </Box>
+                ) :
+                (  
+                  <UsersCardsPages searchQuery={query}/>
+                ) : (
                 <Box display='flex' flexDir='column' alignItems='center' h='250px'>
                   <Image src={noData} boxSize='128px' marginBottom='24px'/>
                   <Text 

@@ -286,9 +286,9 @@ export async function gatherData(projectId, userId, divergencePointId) {
     authorScore.f4 = f4.toFixed(2);
     authorScore.f5 = f5.toFixed(2);
     authorScore.f6 = f6.toFixed(2);
-    authorScore.metrica1 = metrica1.toFixed(2);
-    authorScore.metrica2 = metrica2.toFixed(2);
-    authorScore.score = Math.round((formulaFinal.toFixed(2) * 100) / 0.96);
+    authorScore.metrica1 = Math.round((metrica1 * 100) / 1.25);
+    authorScore.metrica2 = Math.round((metrica2 * 100));
+    authorScore.score = Math.round((formulaFinal * 100) / 0.96);
   
     return authorScore;
   }
