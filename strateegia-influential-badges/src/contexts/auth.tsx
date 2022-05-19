@@ -1,39 +1,3 @@
-// import React from "react";
-
-// export const AuthContext = React.createContext({});
-
-// export function AuthProvider(props: { children: React.ReactNode }) {
-//   const [apiToken, setApiToken] = React.useState<string>('');
-//   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
-
-//   React.useEffect(() => {
-//     console.log(apiToken)
-//   }, [apiToken])
-
-//   const authContextValue = {
-//     apiToken,
-//     isAuthenticated,
-//     setApiToken,
-//     setIsAuthenticated,
-//   };
-
-//   return (
-//     <AuthContext.Provider value={authContextValue}>
-//       {props.children}
-//     </AuthContext.Provider>
-//   );
-// }
-
-// interface AuthContextType {
-//   apiToken: string;
-//   isAuthenticated: boolean;
-//   setApiToken: (apiToken: string) => void;
-//   setIsAuthenticated: (isAuthenticated: boolean) => void;
-// }
-
-// export const useAuth = () => React.useContext(AuthContext) as AuthContextType;
-
-
 import React, { createContext } from 'react';
 
 interface IProps {
@@ -55,7 +19,7 @@ export const AuthProvider = ({children}: IProps ) => {
   React.useEffect(() => {
     const storagedToken = localStorage.getItem('strateegiaAccessToken');
 
-    if (storagedToken) {
+    if (storagedToken === apiToken) {
       setApiToken(storagedToken);
     }
   }, [apiToken]);
@@ -72,8 +36,10 @@ export const AuthProvider = ({children}: IProps ) => {
     });
 
     const data = await response.json();
+    console.log(data)
     setApiToken(data.access_token);
     localStorage.setItem('strateegiaAccessToken', data.access_token);
+    return data.access_token;
   }
 
   return (

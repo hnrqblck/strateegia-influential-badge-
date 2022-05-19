@@ -7,7 +7,8 @@ import {
     InputGroup,
     Input,
     InputRightElement,
-    Button
+    Button, 
+    Image
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons'
 import NavBar from '../components/NavBar';
@@ -16,6 +17,7 @@ import '../styles/home.scss';
 import { LightningIcon } from '../components/CreateIcon';
 import UsersCardsPages from '../components/UsersCardsPages';
 import { DivPointId } from '../contexts/DivPointId';
+import noData from '../assets/images/noData.png'
 
 const Home: React.FC = () => {
   const [query, setQuery] = React.useState<string>('');
@@ -55,6 +57,8 @@ const Home: React.FC = () => {
     } else {
       setUserLevel({...userLevel});
     }
+
+    console.log(usersScore.length);
   }, [usersScore]);
 
 
@@ -140,7 +144,21 @@ const Home: React.FC = () => {
                   tabela
                 </Button>
               </Box>
-            <UsersCardsPages searchQuery={query}/>
+              
+              {usersScore.length > 0 ? (
+                <UsersCardsPages searchQuery={query}/>
+              ) : (
+                <Box display='flex' flexDir='column' alignItems='center' h='250px'>
+                  <Image src={noData} boxSize='128px' marginBottom='24px'/>
+                  <Text 
+                    color='lilac'
+                    fontSize='20px'
+                    width='350px'
+                    textAlign='center'
+                  >
+                    Não temos nenhuma interação ainda. Que tal começar?</Text>
+                </Box>
+              )}
           </Box>
       </Flex>
     </>

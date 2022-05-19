@@ -27,8 +27,7 @@ const Login: React.FC = () => {
     const [show, setShow] = React.useState(false);
     const [loginErrors, setLoginErrors] = React.useState("");
     // const { apiToken, isAuthenticated, setApiToken, setIsAuthenticated } = useAuth();
-    const { signed, auth } = useAuth();
-    const navigate  = useNavigate();
+    const { auth } = useAuth();
     const handleClick = () => setShow(!show);
     document.body.style.overflow='hidden'
 
@@ -43,19 +42,20 @@ const Login: React.FC = () => {
 
     const onSubmit: SubmitHandler<FormValues> = data => {
         auth(data.email, data.password)
-        .then((response) => {
-            if (response) {
+        .then((response : string | void) => {
+            if (response !== undefined) {
                 // setApiToken(response);
                 // setIsAuthenticated(!isAuthenticated);
                 // localStorage.setItem("strateegiaAccessToken", response);
-                console.log(response);
+                console.log('entrei', response);
                 // navigate("/Home");
             } else {
                 setLoginErrors("Acesso negado: email ou senha inválidos!");
+                console.log('erro')
             }
         });  
     };
-
+// https://api.strateegia.digital/projects/v1/divergence-point/626932f879be781095db6f90/comment/report
   
 
   return (
