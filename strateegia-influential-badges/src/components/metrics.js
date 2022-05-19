@@ -29,19 +29,16 @@ let params = {
 export async function testJsonPathWithStrateegiaAPI() {
 
     const project = await getAllProjects(localStorage.getItem("strateegiaAccessToken"));
-    console.log("getAllProjects()");
-    console.log(project);
 
     const user = await getUser(localStorage.getItem("strateegiaAccessToken"));
-    console.log(user)
   
     const result = JSONPath({ path: `$..comments[?(@.author.id == '${user.id}')]`, json: project });
-    console.log(result);
   
   }
 
 export async function gatherData(projectId, userId, divergencePointId) {
     const divPointReport = await getCommentsGroupedByQuestionReport(accessToken, divergencePointId);
+    console.log(divPointReport)
     const commentEngagementByContent = await getCommentEngagementByContent(accessToken, projectId);
     const statisticsForDivergentPoint = commentEngagementByContent.filter(divPoints => divPoints.id == divergencePointId)[0];
     // =======================================
@@ -63,7 +60,6 @@ export async function gatherData(projectId, userId, divergencePointId) {
   
   async function getDivPointReport(divergencePointId) {
     const divPointReport = await getCommentsGroupedByQuestionReport(accessToken, divergencePointId);
-    console.log('divPointReport', divPointReport)
     return divPointReport;
   }
   
@@ -100,7 +96,6 @@ export async function gatherData(projectId, userId, divergencePointId) {
         }
       });
     });
-    console.log('authorsData', authorsData)
     return authorsData;
   }
   
@@ -126,7 +121,6 @@ export async function gatherData(projectId, userId, divergencePointId) {
       total_inner_replies_per_user += author.total_inner_replies;
     });
     kitData.average_inner_replies_per_user = total_inner_replies_per_user / kitData.total_users;
-    console.log('kitdata', kitData)
     return kitData;
   }
   
@@ -284,7 +278,7 @@ export async function gatherData(projectId, userId, divergencePointId) {
   
     A média ponderada (peso da métrica 2 está implícito pelo fato de haver uma soma de duas sub-métricas que equivalem sozinhas a métrica 1) é em função de acreditarmos que o engajamento gerado pelas respostas do usuário é ainda mais importante do que a quantidade de comentários feitas pelo mesmo.
     */
-    const formulaFinal = ((metrica1) + (metrica2)) / 3;
+    const formulaFinal = ((metrica1) + (metrica2)) / 3; Math.round((formulaFinal.toFixed(2) * 100) / 0.96)
   
     authorScore.f1 = f1.toFixed(2);
     authorScore.f2 = f2.toFixed(2);
@@ -294,7 +288,7 @@ export async function gatherData(projectId, userId, divergencePointId) {
     authorScore.f6 = f6.toFixed(2);
     authorScore.metrica1 = metrica1.toFixed(2);
     authorScore.metrica2 = metrica2.toFixed(2);
-    authorScore.score = formulaFinal.toFixed(2);
+    authorScore.score = Math.round((formulaFinal.toFixed(2) * 100) / 0.96);
   
     return authorScore;
   }
@@ -311,7 +305,6 @@ export async function gatherData(projectId, userId, divergencePointId) {
       authorsScores.push(calculateAuthorScore(author, kitData));
     });
     const authorsScoresSorted = authorsScores.sort((a, b) => b.score - a.score);
-    console.log('params', params)
     return authorsScoresSorted;
   }
   

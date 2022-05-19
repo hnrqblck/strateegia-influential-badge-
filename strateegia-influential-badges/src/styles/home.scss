@@ -12,3 +12,19 @@
     }
     
 }
+
+.influence {
+    &::before {
+        content: 'Seu nível ' url('../assets/images/Polygon.png');
+        position: absolute;
+        padding-left: 10px;
+        top: 55%;
+        width: 80px;
+
+        font-style: normal;
+        font-size: 16px;
+        text-align: center;
+
+    }
+    
+}

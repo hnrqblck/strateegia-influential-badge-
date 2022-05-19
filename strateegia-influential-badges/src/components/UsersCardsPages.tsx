@@ -27,7 +27,7 @@ interface IProps {
     searchQuery: string;
 }
 
-const UsersCardsPages = () => {
+const UsersCardsPages = ({searchQuery}: any) => {
     const [usersScore, setUsersScore] = React.useState(JSON.parse(localStorage.getItem("usersScore") || ''));
     const [curItems, setCurItems] = useState([]);
     const divPoint = localStorage.getItem("pointId");
@@ -67,20 +67,45 @@ const UsersCardsPages = () => {
             setUsersScore(data);
             localStorage.setItem("usersScore", JSON.stringify(data))
           })
+          
       }, [id]);
 
     React.useEffect(() => {
-    const offset = (currentPage - 1) * pageSize;
-    const getList = () => {
-        setCurItems(usersScore.slice(offset, offset + pageSize));
-    };
-    // getList();
-    setTimeout(() => {
-      setUsersScore(JSON.parse(localStorage.getItem("usersScore") || ''))
-      getList();
+      const offset = (currentPage - 1) * pageSize;
+      const getList = () => {
+          setCurItems(usersScore.slice(offset, offset + pageSize));
+          
+      };
       
-    }, 100);
+      const userId: string = (localStorage.getItem('userId') || '');
+      const userLevel = {
+        level: 'littleInfluence',
+        bg: 'linear-gradient(180deg, #CD1D9C 0%, #6505B4 100%)',
+        color: 'white'
+      }
+      const filteredUsersScore = usersScore.filter(({ id } : any ) => {
+        return id === userId;
+      });
+
+
+      if (filteredUsersScore[0]?.score >= 67) {
+        localStorage.setItem('userLevel', JSON.stringify({...userLevel, level: 'greaterInfluence'}));
+      } else if (filteredUsersScore[0]?.score >= 34) {
+        localStorage.setItem('userLevel', JSON.stringify({...userLevel, level: 'mediuInfluence'}));
+      } else {
+        localStorage.setItem('userLevel', JSON.stringify({...userLevel, level: 'littleInfluence'}));
+      }
+      setTimeout(() => {
+        // setUsersScore(JSON.parse(localStorage.getItem("usersScore") || ''))
+        getList();
+        // console.log('oi')
+      }, 100);
     }, [currentPage, pageSize, usersScore]);
+
+    
+    const filteredUsersList = curItems?.filter((item: any) => {
+      return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    });
     
 
   return (
@@ -90,10 +115,17 @@ const UsersCardsPages = () => {
           flexWrap='wrap'
           justifyContent='space-between'
           >
-          {curItems
+          {searchQuery ? (
+            filteredUsersList
               .map((user: UserType, index: number) => (
-                  <UserCard key={user.id} name={user.name} score={Math.round((user.score * 100) / 0.96)} position={index + 1}/>
-              ))}
+                  <UserCard key={user.id} name={user.name} score={user.score} position={index + 1}/>
+              ))
+          ) : (
+            curItems
+              .map((user: UserType, index: number) => (
+                  <UserCard key={user.id} name={user.name} score={user.score} position={index + 1}/>
+              ))
+          )}
       </Box>
       <Stack className="pagination-ctrl">
       {/* @typescript-eslint/ban-ts-comment

@@ -3,7 +3,7 @@ import {
     Box,
 } from '@chakra-ui/react';
 import SelectOpt from './SelectOpt';
-import { getAllProjects, getProjectById, getAllDivergencePointsByMapId } from '../services/strateegia-api';
+import { getAllProjects, getProjectById, getAllDivergencePointsByMapId, getUser } from '../services/strateegia-api';
 import {executeCalculations } from './metrics';
 import { DivPointId } from '../contexts/DivPointId';
 
@@ -23,6 +23,7 @@ const JourneyForm = () => {
 
 
     React.useEffect(() => {
+        getUser(accessToken).then(data => localStorage.setItem('userId', data.id));
         getAllProjects(accessToken)
         .then(data => {
             const journeys = data.map((lab: { projects: Object; }) => lab.projects);
@@ -50,14 +51,13 @@ const JourneyForm = () => {
     }
 
     const fetchDivId = (accessToken: string | null, mapId: string) => {
-        // console.log('entrei')
         getAllDivergencePointsByMapId(accessToken, mapId)
         .then(data => {
             const points = data.content.map((point: []) => point);
             localStorage.setItem('pointId', points[0].id);
             executeCalculations(points[0].id).then(data => localStorage.setItem("usersScore", JSON.stringify(data)));
             setPoints([...points.flat()]);
-            // setPointId(points[0].id);
+            
         })
     }
 
@@ -83,7 +83,6 @@ const JourneyForm = () => {
             localStorage.setItem("usersScore", JSON.stringify(data));
             setUsersScore(JSON.stringify(data));
         });
-
         appContext.setId(e.target.value);
     };
 
@@ -92,47 +91,49 @@ const JourneyForm = () => {
     }, [pointId]);
 
     return (
-        <Box 
-            display='flex'
-            flexDir='column'
-            justifyContent='center'
-            alignItems='center'
-            w='857px'
-            h='292px'
-            mt='70px'
-            pt='24px'
-            bg='mediumBlue'
-            borderRadius='100px 40px'
-            border='3px solid'
-            borderColor='#6363ee56'
-        >
-            <SelectOpt 
-                text='Jornadas'
-                onClick={(e: BaseSyntheticEvent) => selectAnJourneyOption(e)} 
-                children={<>{
-                    labs.map(journey => ( 
-                        <option key={journey.id} value={journey.id}>{journey.title}</option>
-                    ))
-                }</>}
-            />
-            <SelectOpt 
-                onClick={(e: BaseSyntheticEvent) => selectAnMapOption(e)}
-                text='Mapas' 
-                children={<>{
-                    maps.map(journeyMap => ( 
-                        <option key={journeyMap.id} value={journeyMap.id}>{journeyMap.title}</option>
-                    ))
-                }</>}
-            />
-            <SelectOpt
-                onClick={(e: BaseSyntheticEvent) => selectAnPointOption(e)}
-                text='Pontos de Divergência'
-                children={<>{
-                    points.map(point => ( 
-                        <option key={point.id} value={point.id}>{point.tool.title}</option>
-                    ))
-                }</>}/>
-        </Box>
+        <>
+            <Box 
+                display='flex'
+                flexDir='column'
+                justifyContent='center'
+                alignItems='center'
+                w='857px'
+                h='292px'
+                mt='70px'
+                pt='24px'
+                bg='mediumBlue'
+                borderRadius='100px 40px'
+                border='3px solid'
+                borderColor='#6363ee56'
+            >
+                <SelectOpt 
+                    text='Jornadas'
+                    onClick={(e: BaseSyntheticEvent) => selectAnJourneyOption(e)} 
+                    children={<>{
+                        labs.map(journey => ( 
+                            <option key={journey.id} value={journey.id}>{journey.title}</option>
+                        ))
+                    }</>}
+                />
+                <SelectOpt 
+                    onClick={(e: BaseSyntheticEvent) => selectAnMapOption(e)}
+                    text='Mapas' 
+                    children={<>{
+                        maps.map(journeyMap => ( 
+                            <option key={journeyMap.id} value={journeyMap.id}>{journeyMap.title}</option>
+                        ))
+                    }</>}
+                />
+                <SelectOpt
+                    onClick={(e: BaseSyntheticEvent) => selectAnPointOption(e)}
+                    text='Pontos de Divergência'
+                    children={<>{
+                        points.map(point => ( 
+                            <option key={point.id} value={point.id}>{point.tool.title}</option>
+                        ))
+                    }</>}/>
+            </Box>
+            </>
     )
 };
 
