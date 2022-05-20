@@ -41,3 +41,32 @@
         margin-left: 3px;
     }
 }
+
+.doughnutBox {
+    &::after {
+        content: 'Interação';
+        position: absolute;
+        top: 415px;
+        left: 135px;
+        z-index: -10;
+    }
+}
+
+.metric1, .metric2 {
+    &::before {
+        content: '';
+        width: 15px;
+        height: 15px;
+        background: #464AA6;
+        // border-radius: 25px;
+     
+        display: inline-block;
+        margin-right: 10px;
+    }
+}
+
+.metric2 {
+    &::before {
+        background: #1B208C;
+    }
+}

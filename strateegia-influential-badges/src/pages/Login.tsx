@@ -14,8 +14,6 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useForm, SubmitHandler  } from "react-hook-form";
-import { Navigate, useNavigate } from 'react-router-dom';
-import { auth } from '../services/strateegia-api';
 import NavBar from '../components/NavBar';
 import { ReactComponent as LogoTitle } from '../assets/images/logo-title.svg';
 import '../styles/login.scss';

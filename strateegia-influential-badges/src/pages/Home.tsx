@@ -15,7 +15,7 @@ import NavBar from '../components/NavBar';
 import JourneyForm from '../components/JourneyForm';
 import '../styles/home.scss';
 import { LightningIcon } from '../components/CreateIcon';
-import UsersCardsPages from '../components/UsersCardsPages';
+import UsersCardsPages from '../components/UserCard/UsersCardsPages';
 import UserTablePage from '../components/UserTablePage';
 import { DivPointId } from '../contexts/DivPointId';
 import noData from '../assets/images/noData.png'

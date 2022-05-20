@@ -3,8 +3,8 @@ import {
     Box,
     Stack,
 } from '@chakra-ui/react';
-import { DivPointId } from '../contexts/DivPointId';
-import { executeCalculations } from '../components/metrics';
+import { DivPointId } from '../../contexts/DivPointId';
+import { executeCalculations } from '../metrics';
 import {
     Pagination,
     PaginationContainer,
@@ -15,12 +15,14 @@ import {
     PaginationPrevious,
     PaginationPageGroup,
   } from "@ajna/pagination";
-import UserCard from '../components/UserCard';
+import UserCard from './UserCard';
 interface UserType {
     name: string;
     id: string;
     score: number;
     position: number;
+    metrica1: number;
+    metrica2: number;
 }
 
 
@@ -33,14 +35,7 @@ const UsersCardsPages = ({searchQuery}: any) => {
     const usersOuterLimit = 2;
     const usersInnerLimit = 2;
 
-    const {
-        pages,
-        pagesCount,
-        currentPage,
-        setCurrentPage,
-        isDisabled,
-        pageSize,
-      } = usePagination({
+    const { pages, pagesCount, currentPage, setCurrentPage, isDisabled, pageSize } = usePagination({
         total: usersScore.length,
         limits: {
           outer: usersOuterLimit,
@@ -76,7 +71,6 @@ const UsersCardsPages = ({searchQuery}: any) => {
       const offset = (currentPage - 1) * pageSize;
       const getList = () => {
           setCurItems(usersScore.slice(offset, offset + pageSize));
-          
       };
       
       const userId: string = (localStorage.getItem('userId') || '');
@@ -97,10 +91,9 @@ const UsersCardsPages = ({searchQuery}: any) => {
       } else {
         localStorage.setItem('userLevel', JSON.stringify({...userLevel, level: 'littleInfluence'}));
       }
+
       setTimeout(() => {
-        // setUsersScore(JSON.parse(localStorage.getItem("usersScore") || ''))
         getList();
-        // console.log('oi')
       }, 100);
     }, [currentPage, pageSize, usersScore]);
 
@@ -120,12 +113,12 @@ const UsersCardsPages = ({searchQuery}: any) => {
           {searchQuery ? (
             filteredUsersList
               .map((user: UserType, index: number) => (
-                  <UserCard key={user.id} name={user.name} score={user.score} position={user.position}/>
+                  <UserCard key={user.id} name={user.name} score={user.score} position={user.position} metrica1={user.metrica1} metrica2={user.metrica2}/>
               ))
           ) : (
             curItems
               .map((user: UserType, index: number) => (
-                  <UserCard key={user.id} name={user.name} score={user.score} position={user.position}/>
+                  <UserCard key={user.id} name={user.name} score={user.score} position={user.position} metrica1={user.metrica1} metrica2={user.metrica2}/>
               ))
           )}
       </Box>
