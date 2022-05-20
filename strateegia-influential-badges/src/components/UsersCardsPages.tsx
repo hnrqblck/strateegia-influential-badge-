@@ -20,6 +20,7 @@ interface UserType {
     name: string;
     id: string;
     score: number;
+    position: number;
 }
 
 
@@ -60,7 +61,12 @@ const UsersCardsPages = ({searchQuery}: any) => {
     React.useEffect(() => {
         executeCalculations(divPoint)
           .then(data => {
-            setUsersScore(data);
+            const addPosition = data.map((dt: UserType, index: number) => {
+              const newObj = {...dt};
+              newObj.position = index + 1;
+              return newObj;
+            })
+            setUsersScore(addPosition);
             localStorage.setItem("usersScore", JSON.stringify(data))
           })
           
@@ -114,12 +120,12 @@ const UsersCardsPages = ({searchQuery}: any) => {
           {searchQuery ? (
             filteredUsersList
               .map((user: UserType, index: number) => (
-                  <UserCard key={user.id} name={user.name} score={user.score} position={index + 1}/>
+                  <UserCard key={user.id} name={user.name} score={user.score} position={user.position}/>
               ))
           ) : (
             curItems
               .map((user: UserType, index: number) => (
-                  <UserCard key={user.id} name={user.name} score={user.score} position={index + 1}/>
+                  <UserCard key={user.id} name={user.name} score={user.score} position={user.position}/>
               ))
           )}
       </Box>

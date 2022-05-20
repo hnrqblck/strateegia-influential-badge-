@@ -23,13 +23,21 @@ export const LightningIcon = createIcon({
     path: (
         <>
             <path d="M16.1673 30.334L24.2673 14.1173L18.6673 14.1173V3.66732L10.334 19.884H16.1673V30.334ZM17.0007 0.333984C21.584 0.333984 25.5007 2.00065 28.7507 5.25065C32.0007 8.50065 33.6673 12.4173 33.6673 17.0007C33.6673 21.584 32.0007 25.5007 28.7507 28.7507C25.5007 32.0007 21.584 33.6673 17.0007 33.6673C12.4173 33.6673 8.50065 32.0007 5.25065 28.7507C2.00065 25.5007 0.333984 21.584 0.333984 17.0007C0.333984 12.4173 2.00065 8.50065 5.25065 5.25065C8.50065 2.00065 12.4173 0.333984 17.0007 0.333984Z" fill="url(#paint0_linear_656_1304)"/>
-<defs>
-<linearGradient id="paint0_linear_656_1304" x1="17.0007" y1="0.333984" x2="17.0007" y2="33.6673" gradientUnits="userSpaceOnUse">
-<stop stop-color="#CD1D9C"/>
-<stop offset="1" stop-color="#6505B4"/>
-</linearGradient>
-</defs>
+            <defs>
+                <linearGradient id="paint0_linear_656_1304" x1="17.0007" y1="0.333984" x2="17.0007" y2="33.6673" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#CD1D9C"/>
+                    <stop offset="1" stop-color="#6505B4"/>
+                </linearGradient>
+            </defs>
         </>
 
 )
+});
+
+export const ExpandIcon = createIcon({
+    displayName: 'DropDownIcon',
+    viewBox: '0 0 18 18',
+    path: (
+        <path d="M7 18V16H3.41L7.91 11.5L6.5 10.09L2 14.59L2 11H0L0 18H7ZM11.5 7.91L16 3.41V7H18V0L11 0V2L14.59 2L10.09 6.5L11.5 7.91Z" fill="#6364EE"/>
+    )
 });

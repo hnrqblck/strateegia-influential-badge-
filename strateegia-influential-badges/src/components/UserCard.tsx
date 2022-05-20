@@ -1,5 +1,6 @@
-import { Box, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
+import { Box, Heading, Text, Stack } from '@chakra-ui/react';
+import { ExpandIcon } from '../components/CreateIcon';
 
 interface IProps {
     name: string;
@@ -8,38 +9,35 @@ interface IProps {
 }
 
 const UserCard = ({name, score, position}: IProps) => {
-  return (
-    <Box
-        bg='mediumBlue'
-        w='260px'
-        h='248px'
-        borderRadius='24px'
-        display='flex'
-        justifyContent='center'
-        alignItems='center'
-        textAlign='center'
-        mb='24px'
-    >
-        <div>
-            <Heading p='0 10px' fontSize='lg' mb='8px'>{name}</Heading>
-            <Text fontSize='lg' mb='8px'>Score</Text>
-            <Box display='flex' justifyContent='center' fontSize='lg' alignItems='center' >
-                <Text
-                    w='24px' h='24px'
-                    borderRadius='25px'
-                    fontWeight='bold'
-                    fontSize='md' 
-                    bg='white' 
-                    color='mediumBlue'
-                    mr='6px'
-                >
-                    {position}
-                </Text>
-                <Text color='pink'>{score}%</Text>
+
+    return (
+        <Box
+            bg='mediumBlue'
+            w='260px'
+            h='248px'
+            borderRadius='24px'
+            display='flex'
+            flexDir='column'
+            justifyContent='center'
+            alignItems='center'
+            textAlign='center'
+            mb='24px'
+        >
+            {/* top='775px' */}
+            <Box display='inline-flex' w='220px' justifyContent='space-between' marginBottom='180px' pos='absolute'>
+                <Text className='position' display='inline'> {position}º </Text>
+                <ExpandIcon />
             </Box>
-        </div>
-    </Box>
-  )
+            <Box>
+                <Heading p='0 10px' fontSize='lg' mb='8px'>{name}</Heading>
+                <Text fontSize='lg' mb='8px'>Score</Text>
+                <Box display='flex' justifyContent='center' fontSize='lg' alignItems='center' >
+                    
+                    <Text color='pink'>{score}%</Text>
+                </Box>
+            </Box>
+        </Box>
+    )
 };
 
 export default UserCard;

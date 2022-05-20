@@ -7,10 +7,13 @@ import { getAllProjects, getProjectById, getAllDivergencePointsByMapId, getUser 
 import {executeCalculations } from './metrics';
 import { DivPointId } from '../contexts/DivPointId';
 
-interface userProps {
-    id: string;
+interface UserType {
     name: string;
+    id: string;
+    score: number;
+    position: number;
 }
+
 
 const JourneyForm = () => {
     const accessToken = localStorage.getItem("strateegiaAccessToken");
@@ -43,7 +46,7 @@ const JourneyForm = () => {
 
             fetchDivId(accessToken,  data.maps[0].id);
             setMaps([...maps.flat()]);
-            data.users.forEach(({id, name}: userProps) => {
+            data.users.forEach(({id, name}: UserType) => {
                 users.push({ id: id, name: name });
             });
             localStorage.setItem("users", JSON.stringify(users));
@@ -55,7 +58,14 @@ const JourneyForm = () => {
         .then(data => {
             const points = data.content.map((point: []) => point);
             localStorage.setItem('pointId', points[0].id);
-            executeCalculations(points[0].id).then(data => localStorage.setItem("usersScore", JSON.stringify(data)));
+            executeCalculations(points[0].id).then(data => {
+                const addPosition = data.map((dt: UserType, index: number) => {
+                    const newObj = {...dt};
+                    newObj.position = index + 1;
+                    return newObj;
+                  })
+                localStorage.setItem("usersScore", JSON.stringify(addPosition))
+            });
             setPoints([...points.flat()]);
             
         })

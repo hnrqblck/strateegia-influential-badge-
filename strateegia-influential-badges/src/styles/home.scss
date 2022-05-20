@@ -28,3 +28,16 @@
     }
     
 }
+
+.position {
+    &::after {
+        content: '';
+        width: 4px;
+        height: 4px;
+        background: #6364EE;
+        border-radius: 25px;
+     
+        display: block;
+        margin-left: 3px;
+    }
+}
