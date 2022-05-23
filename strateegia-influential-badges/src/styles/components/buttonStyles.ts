@@ -10,6 +10,16 @@ export const ButtonStyles = {
           // color: 'pink',
           boxShadow: 'md'
         }
+      },
+      pinkOutline: {
+        bg: 'none',
+        color: 'pink',
+        border: '1px solid #FA00FF',
+        _hover: {
+          bg: 'pink',
+          color: 'white',
+          boxShadow: 'md'
+        }
       }
     },
     defaultProps: {

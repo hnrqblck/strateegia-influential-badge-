@@ -11,14 +11,16 @@ import {
     Image
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons'
+import { CSVLink, CSVDownload } from "react-csv";
+
 import NavBar from '../components/NavBar';
 import JourneyForm from '../components/JourneyForm';
-import '../styles/home.scss';
 import { LightningIcon } from '../components/CreateIcon';
 import UsersCardsPages from '../components/UserCard/UsersCardsPages';
 import UserTablePage from '../components/UserTablePage';
 import { DivPointId } from '../contexts/DivPointId';
 import noData from '../assets/images/noData.png'
+import '../styles/home.scss';
 
 const Home: React.FC = () => {
   const [query, setQuery] = React.useState<string>('');
@@ -165,6 +167,13 @@ const Home: React.FC = () => {
                     Não temos nenhuma interação ainda. Que tal começar?</Text>
                 </Box>
               )}
+              <Box  display='flex' justifyContent='flex-end'>
+                <CSVLink data={usersScore} filename='influencers-csv.csv'>
+                  <Button variant='pinkOutline' >
+                    exportar csv  
+                  </Button>
+                </CSVLink>
+              </Box>
           </Box>
       </Flex>
     </>
